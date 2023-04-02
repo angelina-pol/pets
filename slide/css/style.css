@@ -85,3 +85,7 @@ h1 {
     width: 2em;
     background-color: #E0FFFF;
 }
+
+.imgLeft:hover, .imgRight:hover {
+    background-color: #98b5b5;
+}
