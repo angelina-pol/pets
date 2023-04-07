@@ -13,32 +13,40 @@ const daysMap = {
 window.onload = init;
 
 function init() {
-    let today = new Date(); 
+    let previousMinutes = null;
+    function time() {
+        const today = new Date();
 
-    let timeForAmPm = today.toLocaleTimeString("en");
-    let amPm = timeForAmPm.replace(/[^AMPM]+/g, ' ');
+        const timeForAmPm = today.toLocaleTimeString("en");
+        const amPm = timeForAmPm.replace(/[^AMPM]+/g, ' ');
 
-    let hoursCurrent = today.getHours();
-    let minutesCurrent = today.getMinutes();
-    let dayNumber = today.getDay();
+        const hoursCurrent = today.getHours();
+        const minutesCurrent = today.getMinutes();
+        const dayNumber = today.getDay();
 
-    let hours = twoNumbers(enHours(hoursCurrent));
-    let minutes = twoNumbers(minutesCurrent);
-    let day = daysMap[dayNumber];
+        const hours = twoNumbers(enHours(hoursCurrent));
+        const minutes = twoNumbers(minutesCurrent);
+        const day = daysMap[dayNumber];
 
-    let nowTime = day + ' ' + hours + ' : ' + minutes + ' : ' + amPm;
-
-    document.getElementById('time').innerHTML = nowTime;
-
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i] > 12) {
-            arr[i] = arr[i] - 12;
+        if (previousMinutes !== null && minutes - previousMinutes === 0) {
+            return;
         }
+
+        previousMinutes = minutes;
+
+        const colon = '<span class="colon">:</span>';
+
+        const wrapInSpan = (str) => `<span>${str}</span>`;
+
+        const nowTime = `${wrapInSpan(day)} ${wrapInSpan(hours)} ${wrapInSpan(colon)} ${wrapInSpan(minutes)} ${wrapInSpan(colon)} ${wrapInSpan(amPm)}`;
+
+        document.getElementById('clock').innerHTML = nowTime;
     }
+
+    setInterval(time, 100);                                            //частота обновления страницы 100                                      
 }
 
-
-function twoNumbers(elementOfTime) {
+function twoNumbers(elementOfTime) {                                   //добавляю к минутам от 0 до 9 вперед 0
     let result = elementOfTime;
     if (elementOfTime < 10) {
         result = '0' + elementOfTime;
@@ -46,7 +54,7 @@ function twoNumbers(elementOfTime) {
     return result
 }
 
-function enHours(hoursCurrent) {
+function enHours(hoursCurrent) {                                        //перевожу все часы 13-24 в 1-12
     if (hoursCurrent > 12) {
         hoursCurrent = hoursCurrent - 12;
     }
