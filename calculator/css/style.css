@@ -68,6 +68,10 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
     display: inline-block;
 }
 
+.number:hover, .equally:hover {
+    background-color: #D1D1D1; 
+}
+
 .equally {
     width: 400px;
     height: 60px;
