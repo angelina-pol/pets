@@ -60,7 +60,7 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
     padding-right: 10px;
 }
 
-.number {
+.number, .delete {
     width: 96px;
     height: 60px;
     background-color: #FFFFFF; 
@@ -68,7 +68,9 @@ h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight: 400;}
     display: inline-block;
 }
 
-.number:hover, .equally:hover {
+.number:hover, 
+.equally:hover,
+.delete:hover {
     background-color: #D1D1D1; 
 }
 
