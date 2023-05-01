@@ -2,50 +2,100 @@
 
 window.onload = init;
 
+function calculate(num1, num2, action) {
+    let result;
+    switch(action) {
+        case '+':
+            result = num1 + num2;
+            break
+        case '-':
+            result = num1 - num2;
+            break
+        case '*':
+            result = num1 * num2; 
+            break
+        case '/':
+            result = num1 / num2;   
+            break     
+    }
+    return result;
+}
+
 function init() {
-    let del = document.getElementById('delete');
-    let num = document.getElementsByClassName('number');
-    let plus = document.getElementById('plus');
-    let minus = document.getElementById('minus');
-    let mul = document.getElementById('mul');
-    let divide = document.getElementById('divide');
-    let inpCurrent = document.getElementById('userInput');
+
+    const del = document.getElementById('delete');
+    const num = document.getElementsByClassName('number');
+    const plus = document.getElementById('plus');
+    const minus = document.getElementById('minus');
+    const mul = document.getElementById('mul');
+    const divide = document.getElementById('divide');
+    const equally = document.getElementById('equally');
+    const inpCurrent = document.getElementById('userInput');
     let inpResult;
+
+    let num1 = null;
+    let num2 = null;
+    let result = [];
+    let action;
+    let actionPressed = false;
 
     for (let i = 0; i < num.length; i++) {
         num[i].onclick = function() {
-            inpCurrent.value += num[i].innerHTML;
-            inpResult = inpCurrent.value;
-            return inpResult;
+            if (actionPressed) {
+                inpCurrent.value = num[i].innerHTML;
+            } else {
+                inpCurrent.value += num[i].innerHTML;
+            }
+            actionPressed = false;
+            result.push(num[i].innerHTML)
+            console.log(result)
         }
+    }
+
+    plus.addEventListener('click', getAction);
+    minus.addEventListener('click', getAction);
+    mul.addEventListener('click', getAction);
+    divide.addEventListener('click', getAction);
+
+    function getAction(event) {
+        actionPressed = true;
+        if (num1 === null) {
+            num1 = +result.join('');
+        } else {
+            num2 = +result.join('');
+        }
+
+        if (num1 !== null & num2 !== null) {
+            let resultCalculate = calculate(num1, num2, action);
+            inpCurrent.value = resultCalculate;
+            num1 = resultCalculate;
+            num2 = null;
+        }
+        action = event.target.innerHTML;
+        result = [];
     }
 
     del.onclick = function() {
         inpCurrent.value = "";
+        num1 = null;
+        num2 = null;
+        result = [];
     }
 
-    plus.onclick = function() {
-        inpCurrent.value = inpResult + plus.innerHTML;
-        inpResult = inpCurrent.value;
-        return inpResult;
-    }
+    equally.onclick = function() {
+        actionPressed = true;
+        if (num1 === null) {
+            num1 = +result.join('');
+        } else {
+            num2 = +result.join('');
+        }
 
-    minus.onclick = function() {
-        inpCurrent.value = inpResult + minus.innerHTML;
-        inpResult = inpCurrent.value;
-        return inpResult;
+        if (num1 !== null & num2 !== null) {
+            let resultCalculate = calculate(num1, num2, action);
+            inpCurrent.value = resultCalculate;
+            num1 = resultCalculate;
+            num2 = null;
+        }
+        result = [];
     }
-
-    mul.onclick = function() {
-        inpCurrent.value = inpResult + mul.innerHTML;
-        inpResult = inpCurrent.value;
-        return inpResult;
-    }
-
-    divide.onclick = function() {
-        inpCurrent.value = inpResult + divide.innerHTML;
-        inpResult = inpCurrent.value;
-        return inpResult;
-    }
-
 }
